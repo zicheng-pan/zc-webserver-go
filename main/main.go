@@ -32,12 +32,14 @@ func handler(context *Context) {
 		whead.Add(key, fmt.Sprintf("%v", value))
 	}
 	whead.Add("OSVERSION", fmt.Sprintf("%v", os.Getenv("VERSION")))
-	logdata.data = append(logdata.data, LogData{
+	itemLogData := LogData{
 		RequestTime: time.ANSIC,
 		IP:          context.Request.Host,
 		STATUS:      http.StatusOK,
-	})
+	}
+	logdata.data = append(logdata.data, itemLogData)
 
+	fmt.Println("请求时间:%s, 请求地址:%s, 返回状态码:%d\n", itemLogData.RequestTime, itemLogData.IP, itemLogData.STATUS)
 	fmt.Fprintf(context.Writer, "请查看请求头!!\n")
 	fmt.Fprintf(context.Writer, "请求日志如下:\n")
 	for _, data := range logdata.data {
